@@ -1,10 +1,11 @@
 import Point from "./componets/Point";
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from "./config";
-let SIZE = 20;
+let SIZE = 0;
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
-let DISTANCE = 300;
+let DISTANCE = 1;
+let points: Point = [];
 
 function setSizeCanvas(canv: Object) {
   canv.setAttribute("width", WINDOW_WIDTH.toString() + "px");
@@ -12,18 +13,22 @@ function setSizeCanvas(canv: Object) {
 }
 setSizeCanvas(canvas);
 
-let points: Point = [];
-for (let i = 0; i < SIZE; i++) {
+function append(id) {
+  SIZE++;
   points.push(
     new Point(
       ctx,
-      i,
-      WINDOW_WIDTH / 2 + Math.sin(10 * i) * (WINDOW_WIDTH / 5),
-      WINDOW_HEIGHT / 2 + Math.sin(10 * i) * (WINDOW_HEIGHT / 2),
+      id,
+      WINDOW_WIDTH / 2 + Math.sin(10 * id) * (WINDOW_WIDTH / 5),
+      WINDOW_HEIGHT / 2 + Math.cos(10 * id) * (WINDOW_HEIGHT / 2),
       (Math.random() + 1) * 2,
-      (Math.random() + 1) * (Math.random() + 1)
+      (Math.random() + 1) * (Math.random() + 4)
     )
   );
+}
+
+for (let i = 0; i < 15; i++) {
+  append(i);
 }
 
 function Distance(a: Object, b: Object) {
@@ -48,7 +53,7 @@ function DrawLine(a: Object, b: Object) {
 let last = new Date();
 function update() {
   let t2 = new Date();
-  if (t2.getTime() - last.getTime() > 1000 / 30) {
+  if (t2.getTime() - last.getTime() > 1000 / 15) {
     ctx.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -64,8 +69,6 @@ function update() {
           points[i].setOpacity(newop);
         }
       }
-      //console.log(`${i} = ${maxOpacity}`);
-
       points[i].update();
     }
     last = t2;
@@ -78,3 +81,16 @@ function update() {
 setTimeout(() => {
   update();
 }, 10);
+
+let cof = 10;
+function addNew() {
+  if (DISTANCE > 700) {
+    cof = -1;
+  }
+  if (DISTANCE < 10) {
+    cof = 1;
+  }
+  DISTANCE += 10 * cof;
+  setTimeout(addNew, 10);
+}
+addNew();

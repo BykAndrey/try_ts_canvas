@@ -56,10 +56,10 @@ export default class Point extends ObjectScene {
     this.ctx.translate(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 
     this.ctx.translate(-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
-    //console.log(this._opacity);
-
+    this.ctx.shadowColor = "red";
+    this.ctx.shadowBlur = 15;
     this.ctx.strokeStyle = "rgba(255,255,255," + this._opacity + ")";
-    this.ctx.fillStyle = "rgba(255,255,255," + this._opacity + ")";
+    this.ctx.fillStyle = "rgba(255,255,255," + this._opacity + ") )";
     this.ctx.beginPath();
     this.ctx.arc(this._x, this._y, this._r, 0, 2 * Math.PI);
     this.ctx.stroke();
